@@ -56,6 +56,7 @@ const CityPage = () => {
         <Select
           bg='brand.black'
           w='150px'
+          h='36px'
           color='brand.white'
           borderRadius='100px'
           onChange={e => setSearchTerm(e.currentTarget.value)}
@@ -75,7 +76,7 @@ const CityPage = () => {
           p={5}
           w='100%'
           borderRadius='16px'
-          bg='brand.yellow'
+          bg='brand.white'
           h='70vh'
           overflowY='scroll'
           templateColumns={{

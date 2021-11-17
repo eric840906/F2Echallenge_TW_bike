@@ -10,7 +10,6 @@ import {
   VStack
 } from '@chakra-ui/react'
 import Proptype from 'prop-types'
-import { Logo } from 'assets/logo/logo'
 
 const SideDrawer = ({ onDrawerOpen, onDrawerClose, children }) => {
   const btnRef = React.useRef()
@@ -23,11 +22,9 @@ const SideDrawer = ({ onDrawerOpen, onDrawerClose, children }) => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent bg='brand.yellow'>
+        <DrawerContent bg='brand.white'>
           <DrawerCloseButton onFocus={() => document.activeElement.blur()} />
-          <DrawerHeader>
-            <Logo />
-          </DrawerHeader>
+          <DrawerHeader bg='brand.yellow' height='200px'></DrawerHeader>
           <Divider />
           <DrawerBody p={2} overflow='hidden'>
             <VStack gridGap={3}>
