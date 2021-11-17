@@ -12,6 +12,7 @@ const SideDrawer = ({ onDrawerOpen, onDrawerClose, children }) => {
   return (
     <>
       <Drawer
+        size='xl'
         isOpen={onDrawerOpen}
         placement='right'
         onClose={onDrawerClose}
