@@ -40,8 +40,9 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
   }, [currentPath])
 
   const renderStations = spots => {
+    console.log(spots)
     return (
-      spots.length > 0 &&
+      spots &&
       spots.map(spot => (
         <div key={spot.StationID}>
           <Marker
@@ -93,7 +94,7 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
         }}
       >
         {/* <Marker position={{ lat, lng }} /> */}
-        {nearbySpots.length > 0 && renderStations(nearbySpots)}
+        {nearbySpots && renderStations(nearbySpots)}
         {currentInfo && (
           <InfoBox
             position={{

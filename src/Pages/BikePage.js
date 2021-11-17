@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, Heading } from '@chakra-ui/react'
 import { MyMap } from 'Components/Map'
 import { usePosition, useSpots, useAvailability } from 'hooks'
 import combineData from 'util/combineData'
@@ -26,7 +26,11 @@ const BikePage = () => {
   return (
     <>
       <Flex flexDirection='column' h='100vh'>
-        <Navbar />
+        <Navbar>
+          <Heading color='brand.black' size='sm' m='auto'>
+            您附近的youbike站
+          </Heading>
+        </Navbar>
         {error ? (
           <Text>{error}</Text>
         ) : (
@@ -34,11 +38,11 @@ const BikePage = () => {
             <MyMap
               lat={latitude}
               lng={longitude}
-              nearbySpots={combineData(
-                nearbyStations,
-                stationDetail,
-                'StationID'
-              )}
+              nearbySpots={
+                nearbyStations &&
+                stationDetail &&
+                combineData(nearbyStations, stationDetail, 'StationID')
+              }
             />
           )
         )}

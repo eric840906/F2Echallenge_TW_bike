@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { travelInfo } from 'api/travelapi'
 
 const useNearby = () => {
-  const [spots, setSpots] = useState([])
+  const [spots, setSpots] = useState(null)
   const search = async ({ target, lat, lon }) => {
     const url = `${target}?$top=4&$select=ID,Name,Picture&$spatialFilter=nearby(${lat},${lon},10000)&$format=JSON`
     try {

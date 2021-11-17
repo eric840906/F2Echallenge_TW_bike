@@ -3,7 +3,7 @@ import { bike } from 'api/transport'
 import useMyToast from './useMyToast'
 
 const useStation = () => {
-  const [spots, setSpots] = useState([])
+  const [spots, setSpots] = useState(null)
   const { errorToast } = useMyToast('error')
   // useEffect(() => {
   //   search({ option, city, lat, lng })
