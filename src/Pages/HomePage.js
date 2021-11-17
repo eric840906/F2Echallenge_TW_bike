@@ -1,7 +1,8 @@
-import { Image, Text, Flex, Button, Icon } from '@chakra-ui/react'
+import { Text, Flex, Button, Icon } from '@chakra-ui/react'
 import { RiCopyrightLine } from 'react-icons/ri'
 import { Logo } from 'assets/logo/logo'
-import bicycle from 'assets/images/bicycle.svg'
+import { LottieContainer } from 'Components/Lottie'
+import bicycle from 'assets/images/youbike.json'
 import { useNavigate } from 'react-router-dom'
 
 const DetailPage = () => {
@@ -16,16 +17,25 @@ const DetailPage = () => {
         h='100vh'
       >
         <Flex
+          w='80%'
           mt={{ base: '100px', md: '151px' }}
           flexDirection='column'
-          alignSelf='center'
+          alignItems='center'
           cursor='pointer'
           onClick={() => navigate('/')}
         >
-          <Image src={bicycle} h='75px' w='119px' />
+          <LottieContainer
+            styleObj={{ width: '119px', marginRight: '140px' }}
+            LottieFile={bicycle}
+          />
           <Logo />
-          <Text letterSpacing='12px' alignSelf='baseline' fontSize='13px'>
-            微笑單車，暢遊城市
+          <Text
+            letterSpacing='12px'
+            alignSelf='center'
+            fontSize='13px'
+            mr='20px'
+          >
+            微笑單車‧暢遊城市
           </Text>
         </Flex>
         <Flex flexDirection='column' gridGap={3} mt='114px'>
@@ -35,7 +45,7 @@ const DetailPage = () => {
             onClick={() => navigate('/nearbybike')}
             onFocus={() => document.activeElement.blur()}
           >
-            <Text variant='switch' fontSize='20px'>
+            <Text variant='switch' fontSize='14px'>
               尋找 Youbike
             </Text>
           </Button>
@@ -45,7 +55,7 @@ const DetailPage = () => {
             onClick={() => navigate('/cities')}
             onFocus={() => document.activeElement.blur()}
           >
-            <Text variant='switch' fontSize='20px'>
+            <Text variant='switch' fontSize='14px'>
               查詢自行車道
             </Text>
           </Button>
@@ -55,7 +65,7 @@ const DetailPage = () => {
             onClick={() => navigate('/')}
             onFocus={() => document.activeElement.blur()}
           >
-            <Text variant='switch' fontSize='20px'>
+            <Text variant='switch' fontSize='14px'>
               附近景點、美食
             </Text>
           </Button>

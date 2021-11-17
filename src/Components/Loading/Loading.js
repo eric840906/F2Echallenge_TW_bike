@@ -1,13 +1,9 @@
-import { Flex, Spinner } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import { LottieContainer } from 'Components/Lottie'
+import bicycle from 'assets/images/youbike.json'
 const Loading = () => (
-  <Flex justifyContent="center">
-    <Spinner
-      thickness="4px"
-      speed="0.65s"
-      emptyColor="gray.200"
-      color="blue.500"
-      size="xl"
-    />
+  <Flex justifyContent='center' p={10}>
+    <LottieContainer styleObj={{ width: '71px' }} LottieFile={bicycle} />
   </Flex>
 )
 

@@ -1,9 +1,9 @@
 import { Flex, Text } from '@chakra-ui/react'
 import { memo, useState, useEffect } from 'react'
-import markerIcon from 'assets/images/marker2.svg'
+import markerIcon from 'assets/images/default.svg'
 import flagIcon from 'assets/images/flag.svg'
 import corsshairIcon from 'assets/images/crosshair.svg'
-
+// import { Loader } from '@googlemaps/js-api-loader'
 import {
   GoogleMap,
   useJsApiLoader,
@@ -14,14 +14,19 @@ import {
 import PropTypes from 'prop-types'
 import { pathFilter } from 'util/pathFilter'
 
+// const loader = new Loader({
+//   apiKey: process.env.REACT_APP_GOOGLE_KEY,
+//   version: 'weekly'
+// })
+
 const containerStyle = {
   width: '100%',
   height: '100%'
 }
 
-const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
+const MyMap = ({ lat, lng, nearbySpots, routePath, mode = 'default' }) => {
   const [currentMap, setCurrentMap] = useState(null)
-  const [currentInfo, setCurrentInfo] = useState(null)
+  // const [currentInfo, setCurrentInfo] = useState(null)
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_KEY
@@ -38,9 +43,8 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
       currentMap.panTo(currentPath[0])
     }
   }, [currentPath])
-
   const renderStations = spots => {
-    console.log(spots)
+    // console.log(spots)
     return (
       spots &&
       spots.map(spot => (
@@ -49,9 +53,6 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
             position={{
               lat: spot.StationPosition.PositionLat,
               lng: spot.StationPosition.PositionLon
-            }}
-            onClick={() => {
-              setCurrentInfo(spot)
             }}
             options={{
               icon: {
@@ -63,6 +64,45 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
       ))
     )
   }
+
+  const renderBox = spots => {
+    return (
+      spots &&
+      spots.map(spot => (
+        <div key={spot.StationID}>
+          <InfoBox
+            position={{
+              lat: spot.StationPosition.PositionLat,
+              lng: spot.StationPosition.PositionLon
+            }}
+            options={{
+              closeBoxURL: '',
+              alignBottom: true,
+              pixelOffset: new window.google.maps.Size(-14.3, -12)
+            }}
+          >
+            <Flex
+              transition='all 0.5s ease'
+              bg={mode === 'default' ? 'brand.yellow' : 'black'}
+              color={mode === 'default' ? 'black' : 'brand.yellow'}
+              justifyContent='center'
+              alignItems='center'
+              borderRadius='100%'
+              w='28px'
+              h='28px'
+            >
+              <Text fontWeight='700'>
+                {mode === 'default'
+                  ? spot.AvailableRentBikes
+                  : spot.AvailableReturnBikes}
+              </Text>
+            </Flex>
+          </InfoBox>
+        </div>
+      ))
+    )
+  }
+
   const onLoad = polyline => {
     console.log('polyline: ', polyline)
   }
@@ -86,41 +126,21 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
         mapContainerStyle={containerStyle}
         zoom={15}
         onLoad={e => {
+          console.log(e)
           setCurrentMap(e)
           e.setCenter({ lat, lng })
         }}
         options={{
-          gestureHandling: 'greedy'
+          gestureHandling: 'greedy',
+          zoomControl: false,
+          scaleControl: false,
+          fullscreenControl: false,
+          mapTypeControl: false
         }}
       >
         {/* <Marker position={{ lat, lng }} /> */}
         {nearbySpots && renderStations(nearbySpots)}
-        {currentInfo && (
-          <InfoBox
-            position={{
-              lat: currentInfo.StationPosition.PositionLat,
-              lng: currentInfo.StationPosition.PositionLon
-            }}
-            onCloseClick={e => {
-              setCurrentInfo(null)
-            }}
-            onLoad={() => console.log(123)}
-          >
-            <Flex
-              flexDirection='column'
-              bg='brand.white'
-              borderRadius='6px'
-              boxShadow='xl'
-              p={3}
-              maxW='300px'
-              gridGap={1}
-            >
-              <Text fontWeight='700'>{currentInfo.StationName.Zh_tw}</Text>
-              <Text>剩餘車輛: {currentInfo.AvailableRentBikes}</Text>
-              <Text>目前空位: {currentInfo.AvailableReturnBikes}</Text>
-            </Flex>
-          </InfoBox>
-        )}
+        {nearbySpots && renderBox(nearbySpots)}
         <Polyline onLoad={onLoad} path={currentPath} options={options} />
         {currentPath && (
           <>
@@ -159,7 +179,8 @@ MyMap.propTypes = {
   lat: PropTypes.number,
   lng: PropTypes.number,
   nearbySpots: PropTypes.array,
-  routePath: PropTypes.object
+  routePath: PropTypes.object,
+  mode: PropTypes.string
 }
 
 export default memo(MyMap)
