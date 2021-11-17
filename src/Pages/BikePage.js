@@ -48,6 +48,7 @@ const BikePage = () => {
     e.preventDefault()
     setSearchTerm(inputRef.current.value)
     errorToast('NOT READY YET')
+    document.activeElement.blur()
   }
   return (
     <>
