@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { Logo } from 'assets/logo/logo'
 import Proptype from 'prop-types'
+import { textOverflow } from 'assets/style/style'
 
 const Navbar = ({ onHamburgerClick, children, routeName }) => {
   const navigate = useNavigate()
@@ -33,7 +34,13 @@ const Navbar = ({ onHamburgerClick, children, routeName }) => {
       </Flex>
 
       {routeName && (
-        <Heading size='sm' color='black' m='auto'>
+        <Heading
+          {...textOverflow}
+          maxW={{ base: '250px', md: '500px' }}
+          size='sm'
+          color='black'
+          m='auto'
+        >
           {routeName}
         </Heading>
       )}

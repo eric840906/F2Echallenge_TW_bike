@@ -88,6 +88,9 @@ const MyMap = ({ lat, lng, nearbySpots, routePath }) => {
           setCurrentMap(e)
           e.setCenter({ lat, lng })
         }}
+        options={{
+          gestureHandling: 'greedy'
+        }}
       >
         {/* <Marker position={{ lat, lng }} /> */}
         {nearbySpots.length > 0 && renderStations(nearbySpots)}

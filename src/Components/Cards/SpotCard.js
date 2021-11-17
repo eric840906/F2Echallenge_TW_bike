@@ -2,12 +2,7 @@ import { useState } from 'react'
 import { Heading, Flex, AspectRatio, Icon, Text } from '@chakra-ui/react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import PropTypes from 'prop-types'
-const textOverflow = {
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-  overflow: 'hidden',
-  maxW: '100px'
-}
+import { textOverflow } from 'assets/style/style'
 const SpotCard = ({ spot, onClick }) => {
   const [enter, setEnter] = useState()
   return (
