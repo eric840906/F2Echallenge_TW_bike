@@ -24,7 +24,7 @@ const SideDrawer = ({ onDrawerOpen, onDrawerClose, children }) => {
       >
         <DrawerOverlay />
         <DrawerContent bg='brand.yellow'>
-          <DrawerCloseButton />
+          <DrawerCloseButton onFocus={() => document.activeElement.blur()} />
           <DrawerHeader>
             <Logo />
           </DrawerHeader>

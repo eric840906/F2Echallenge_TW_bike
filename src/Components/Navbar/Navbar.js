@@ -74,7 +74,6 @@ const Navbar = ({ onHamburgerClick, children, routeName }) => {
           w='40px'
           h='40px'
           onClick={onHamburgerClick}
-          onFocus={() => document.activeElement.blur()}
           size='sm'
         >
           <HamburgerIcon w={5} h={5} />

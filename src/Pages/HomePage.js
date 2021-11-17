@@ -33,6 +33,7 @@ const DetailPage = () => {
             w='244px'
             variant='brandoutline'
             onClick={() => navigate('/nearbybike')}
+            onFocus={() => document.activeElement.blur()}
           >
             <Text variant='switch' fontSize='20px'>
               尋找 Youbike
@@ -42,6 +43,7 @@ const DetailPage = () => {
             w='244px'
             variant='brandoutline'
             onClick={() => navigate('/cities')}
+            onFocus={() => document.activeElement.blur()}
           >
             <Text variant='switch' fontSize='20px'>
               查詢自行車道
@@ -51,6 +53,7 @@ const DetailPage = () => {
             w='244px'
             variant='brandoutline'
             onClick={() => navigate('/')}
+            onFocus={() => document.activeElement.blur()}
           >
             <Text variant='switch' fontSize='20px'>
               附近景點、美食
