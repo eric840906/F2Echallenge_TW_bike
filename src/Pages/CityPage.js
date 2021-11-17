@@ -88,14 +88,15 @@ const CityPage = () => {
           ) : (
             <Flex py={5}>請選擇城市</Flex>
           )}
+
+          <Button
+            variant='default'
+            disabled={!loadMore}
+            onClick={() => setSkip(skip + 30)}
+          >
+            {loadMore ? '載入更多' : '已到底部'}
+          </Button>
         </Grid>
-        <Button
-          variant='default'
-          disabled={!loadMore}
-          onClick={() => setSkip(skip + 30)}
-        >
-          {loadMore ? '載入更多' : '已到底部'}
-        </Button>
       </SideDrawer>
       <Flex flexDirection='column' h='100vh' alignItems='center'>
         <Navbar
