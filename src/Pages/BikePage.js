@@ -68,7 +68,7 @@ const BikePage = () => {
           w='300px'
           position='absolute'
           zIndex={10}
-          top='18%'
+          top={{ base: '25%', md: '18%' }}
           left='50%'
           transform='translate(-50%, -50%)'
           onSubmit={search}
@@ -103,7 +103,6 @@ const BikePage = () => {
           )
         )}
         <Flex
-          flex={1}
           bg='brand.yellow'
           display={{ base: 'flex', md: 'none' }}
           justifyContent='center'
