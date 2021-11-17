@@ -103,6 +103,7 @@ const BikePage = () => {
           )
         )}
         <Flex
+          flex={1}
           bg='brand.yellow'
           display={{ base: 'flex', md: 'none' }}
           justifyContent='center'

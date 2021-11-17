@@ -121,7 +121,7 @@ const MyMap = ({ lat, lng, nearbySpots, routePath, mode = 'default' }) => {
     zIndex: 1
   }
   return isLoaded && lat ? (
-    <Flex flex={1} w='100%' overflow='hidden'>
+    <Flex flex='13' w='100%' overflow='hidden'>
       <GoogleMap
         mapContainerStyle={containerStyle}
         zoom={15}

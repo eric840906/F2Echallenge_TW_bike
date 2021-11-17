@@ -1,8 +1,9 @@
 // import { useRef, useEffect } from 'react'
-import { Flex, Button, Heading } from '@chakra-ui/react'
+import { Flex, Button, Heading, Icon } from '@chakra-ui/react'
 // import { HamburgerIcon } from '@chakra-ui/icons'
 import { useNavigate, useLocation } from 'react-router'
-import { HamburgerIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+import { FaRoute } from 'react-icons/fa'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { Logo } from 'assets/logo/logo'
 import Proptype from 'prop-types'
 import { textOverflow } from 'assets/style/style'
@@ -76,7 +77,7 @@ const Navbar = ({ onHamburgerClick, children, routeName }) => {
           onClick={onHamburgerClick}
           size='sm'
         >
-          <HamburgerIcon w={5} h={5} />
+          <Icon as={FaRoute} w={8} h={8} />
         </Button>
       )}
     </Flex>
