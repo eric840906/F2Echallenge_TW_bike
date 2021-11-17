@@ -1,0 +1,26 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install and Build
+      run: |
+        npm install
+        npm run build
+      env:
+        REACT_APP_APPID: ${{secrets.REACT_APP_APPID}}
+        REACT_APP_APPKEY: ${{secrets.REACT_APP_APPKEY}}
+        REACT_APP_GOOGLE_KEY: ${{secrets.REACT_APP_GOOGLE_KEY}}
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with: 
+        branch: gh-pages
+        folder: build

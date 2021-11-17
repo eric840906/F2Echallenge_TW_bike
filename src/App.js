@@ -1,15 +1,13 @@
 import { useDisclosure } from '@chakra-ui/react'
 import { SideDrawer } from './Components/Drawer'
-import { Navbar } from './Components/Navbar'
 import routes from './Router/routerConfig'
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 
 const App = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onClose } = useDisclosure()
   return (
     <>
-      <Router basename="/">
-        <Navbar onHamburgerClick={onOpen} />
+      <Router basename='/'>
         <SideDrawer onDrawerOpen={isOpen} onDrawerClose={onClose} />
         <Routes>
           {routes.map((route, i) => (

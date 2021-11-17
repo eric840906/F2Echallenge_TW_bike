@@ -16,9 +16,13 @@ const getAuthorizationHeader = () => {
     '"'
   return { Authorization: Authorization, 'X-Date': GMTString }
 }
-export const travelInfo = axios.create({
+export const bike = axios.create({
   headers: getAuthorizationHeader(),
-  baseURL: 'https://ptx.transportdata.tw/MOTC/v2/Tourism/'
+  baseURL: 'https://ptx.transportdata.tw/MOTC/v2/Bike/'
+})
+export const cyclingRoute = axios.create({
+  headers: getAuthorizationHeader(),
+  baseURL: 'https://ptx.transportdata.tw/MOTC/v2/Cycling/Shape'
 })
 
 // export const getSpots = async (city = '') => {

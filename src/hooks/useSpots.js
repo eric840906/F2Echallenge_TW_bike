@@ -1,47 +1,28 @@
-import { useEffect, useState } from 'react'
-import { travelInfo } from 'api/travelapi'
+import { useState } from 'react'
+import { bike } from 'api/transport'
+import useMyToast from './useMyToast'
 
-const useSpots = (options, defaultSearchTerm, defaultClass = '') => {
+const useStation = () => {
   const [spots, setSpots] = useState([])
-  useEffect(() => {
-    const searchTerm = defaultSearchTerm === 'Taiwan' ? '' : defaultSearchTerm
-    const searchClass = defaultClass === 'All' ? '' : defaultClass
-    // console.log('searchTerm' + searchTerm)
-    // console.log('searchClass' + searchClass)
-    search({ term: searchTerm, classify: searchClass })
-  }, [defaultSearchTerm, defaultClass])
-  const search = async ({ term, classify, skip, searchString }) => {
-    const { target } = options
-    const searchTerm = term === 'Taiwan' ? '' : term
-    const searchClass = classify === 'All' ? '' : classify
-    const classifyString = searchClass ? `Class eq '${searchClass}'` : ''
-    const keyWordString = searchString
-      ? `contains(Name, '${searchString}')`
-      : ''
-    const filterString = () => {
-      if (!~(classifyString && keyWordString)) {
-        return `$filter=${classifyString} and ${keyWordString}`
-      }
-      if (keyWordString) {
-        return `$filter=${keyWordString}`
-      }
-      if (classifyString) {
-        return `$filter=${classifyString}`
-      }
-      return ''
+  const { errorToast } = useMyToast('error')
+  // useEffect(() => {
+  //   search({ option, city, lat, lng })
+  // }, [])
+  const search = async ({ option, city, lat, lng }) => {
+    let finalUrl
+    if (option === 'nearby') {
+      finalUrl = `Station/NearBy?$top=30&$spatialFilter=nearby(${lat}, ${lng}, 1000)&$format=JSON`
+    } else {
+      finalUrl = `Station/${city}?$top=30&$format=JSON`
     }
-    const skipString = skip ? `$skip=${skip}` : ''
-    const tail = '$select=ID,Name,Picture&$top=30&$format=JSON'
-    const finalUrl = `${target}/${searchTerm}?${skipString}&${filterString()}&${tail}`
-    // console.log('final' + finalUrl)
     try {
-      const { data } = await travelInfo.get(finalUrl)
+      const { data } = await bike.get(finalUrl)
       setSpots(data)
     } catch (error) {
-      console.log(error)
+      errorToast('權限到期，請重新整理後再試一次')
     }
   }
   return [spots, search]
 }
 
-export default useSpots
+export default useStation

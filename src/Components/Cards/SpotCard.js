@@ -1,72 +1,55 @@
 import { useState } from 'react'
-import {
-  Heading,
-  Flex,
-  AspectRatio,
-  useColorMode,
-  Icon
-} from '@chakra-ui/react'
-import { FaLocationArrow } from 'react-icons/fa'
+import { Heading, Flex, AspectRatio, Icon, Text } from '@chakra-ui/react'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 import PropTypes from 'prop-types'
-import defaultholder from 'assets/images/placeholders/placeholder150.png'
-import scenic from 'assets/images/placeholders/scenic.png'
-import food from 'assets/images/placeholders/food.png'
-import hotel from 'assets/images/placeholders/hotel.png'
+const textOverflow = {
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  maxW: '100px'
+}
 const SpotCard = ({ spot, onClick }) => {
   const [enter, setEnter] = useState()
-  const { colorMode } = useColorMode()
-  const placeholder = (id) => {
-    if (id.indexOf('C1') > -1) return scenic
-    if (id.indexOf('C3') > -1) return food
-    if (id.indexOf('C4') > -1) return hotel
-    return defaultholder
-  }
   return (
-    <AspectRatio key={spot.ID} ratio={1.67 / 1}>
+    <AspectRatio key={spot.RouteName} ratio={5 / 2}>
       <Flex
-        cursor="pointer"
-        key={spot.ID}
-        justifyContent="end !important"
-        borderRadius="10px"
-        overflow="hidden"
-        flexDirection="column"
-        boxShadow={colorMode === 'light' ? 'lg' : '0px 2px 6px -3px #eaeaea33'}
-        marginBottom="40px"
-        bg="white"
-        backgroundPosition={spot.ID.indexOf('C1') > -1 ? 'bottom' : 'center'}
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        backgroundImage={
-          spot.Picture.PictureUrl1
-            ? spot.Picture.PictureUrl1
-            : placeholder(spot.ID)
-        }
+        cursor='pointer'
+        borderRadius='10px'
+        overflow='hidden'
+        flexDirection='column'
+        justifyContent='space-between !important'
+        boxShadow='lg'
+        marginBottom='40px'
+        bg={enter ? 'brand.black' : 'white'}
+        color={enter ? 'brand.yellow' : 'brand.black'}
+        transition='all 0.5s ease'
+        p={2}
         onClick={onClick}
         onMouseEnter={() => setEnter(true)}
         onMouseLeave={() => setEnter(false)}
       >
-        <Flex
-          w="100%"
-          h="100%"
-          transition="all 0.3s ease"
-          backgroundColor="#00000080"
-          position="absolute"
-          opacity={enter ? '1' : '0'}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Icon as={FaLocationArrow} w="50px" h="50px" color="whiteAlpha.600" />
-        </Flex>
         <Heading
-          w="100%"
-          background={colorMode === 'light' ? 'white' : 'brand.black'}
-          color={colorMode === 'light' ? 'brand.200' : 'brand.grey'}
-          textAlign="center"
+          w='100%'
+          {...textOverflow}
+          maxW='100%'
+          color='brand.grey'
+          textAlign='start'
           size={{ base: 'sm', sm: 'md' }}
-          py={3}
         >
-          {spot.Name}
+          {spot.RouteName}
         </Heading>
+        <Flex justifyContent='space-between' w='100%' fontSize='12px'>
+          <Flex>
+            <Text>{spot.Direction}</Text>
+            <Text>{(spot.CyclingLength / 1000).toFixed(2)}公里</Text>
+          </Flex>
+          <Flex>
+            <Icon as={FaMapMarkerAlt} alignSelf='center' />
+            <Text {...textOverflow}>
+              {spot.City}&nbsp;{spot.Town}
+            </Text>
+          </Flex>
+        </Flex>
       </Flex>
     </AspectRatio>
   )

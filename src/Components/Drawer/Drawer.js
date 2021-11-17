@@ -4,86 +4,77 @@ import {
   DrawerBody,
   DrawerOverlay,
   DrawerContent,
-  DrawerFooter,
   DrawerCloseButton,
-  VStack,
-  Image,
-  Text,
-  Flex,
-  Button,
-  Icon
+  DrawerHeader,
+  Divider,
+  VStack
 } from '@chakra-ui/react'
-
-import { RiCopyrightLine } from 'react-icons/ri'
-import { Logo } from 'assets/logo/logo'
-import bicycle from 'assets/images/bicycle.svg'
-import { useNavigate } from 'react-router-dom'
 import Proptype from 'prop-types'
+import { Logo } from 'assets/logo/logo'
 
-const SideDrawer = ({ onDrawerOpen, onDrawerClose }) => {
+const SideDrawer = ({ onDrawerOpen, onDrawerClose, children }) => {
   const btnRef = React.useRef()
-  const navigate = useNavigate()
   return (
     <>
       <Drawer
         isOpen={onDrawerOpen}
-        placement="right"
+        placement='right'
         onClose={onDrawerClose}
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent background="brand.yellow">
+        <DrawerContent bg='brand.yellow'>
           <DrawerCloseButton />
-          <DrawerBody p={0}>
-            <VStack gridGap={3} mt={10} textAlign="center">
-              <Flex
-                mb="80px"
-                mt="40px"
-                flexDirection="column"
-                alignSelf="center"
-                cursor="pointer"
+          <DrawerHeader>
+            <Logo />
+          </DrawerHeader>
+          <Divider />
+          <DrawerBody p={2} overflow='hidden'>
+            <VStack gridGap={3}>
+              {children}
+              {/* <Flex
+                mb='80px'
+                mt='40px'
+                flexDirection='column'
+                alignSelf='center'
+                cursor='pointer'
                 onClick={() => navigate('/')}
               >
-                <Image src={bicycle} h="75px" w="119px" />
+                <Image src={bicycle} h='75px' w='119px' />
                 <Logo />
-                <Text letterSpacing="12px" alignSelf="baseline" fontSize="13px">
+                <Text letterSpacing='12px' alignSelf='baseline' fontSize='13px'>
                   微笑單車，暢遊城市
                 </Text>
               </Flex>
               <Button
-                variant="brandoutline"
-                w="80%"
-                onClick={() => navigate('/')}
+                variant='brandoutline'
+                w='80%'
+                onClick={() => navigate('/nearbybike')}
               >
-                <Text variant="switch" fontSize="20px">
+                <Text variant='switch' fontSize='20px'>
                   尋找 Youbike
                 </Text>
               </Button>
               <Button
-                variant="brandoutline"
-                w="80%"
+                variant='brandoutline'
+                w='80%'
                 onClick={() => navigate('/')}
               >
-                <Text variant="switch" fontSize="20px">
+                <Text variant='switch' fontSize='20px'>
                   查詢自行車道
                 </Text>
               </Button>
               <Button
-                variant="brandoutline"
-                w="80%"
+                variant='brandoutline'
+                w='80%'
                 onClick={() => navigate('/')}
               >
-                <Text variant="switch" fontSize="20px">
+                <Text variant='switch' fontSize='20px'>
                   附近景點、美食
                 </Text>
-              </Button>
+              </Button> */}
             </VStack>
           </DrawerBody>
-          <DrawerFooter fontSize="12px">
-            Where&apos;s &nbsp;Youbike &nbsp;
-            <Icon as={RiCopyrightLine} />
-            &nbsp; Code: Eric Chiu &nbsp;/&nbsp; Design: KT
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
@@ -92,7 +83,8 @@ const SideDrawer = ({ onDrawerOpen, onDrawerClose }) => {
 
 SideDrawer.propTypes = {
   onDrawerOpen: Proptype.bool,
-  onDrawerClose: Proptype.func
+  onDrawerClose: Proptype.func,
+  children: Proptype.node
 }
 
 export default SideDrawer

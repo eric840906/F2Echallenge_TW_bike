@@ -2,9 +2,10 @@ import React from 'react'
 import { Loading } from 'Components/Loading'
 import { HomePage } from 'Pages'
 import { Navigate } from 'react-router-dom'
+const BikePage = React.lazy(() => import('../Pages/BikePage'))
 const SpotPage = React.lazy(() => import('../Pages/SpotPage'))
 const DetailPage = React.lazy(() => import('../Pages/DetailPage'))
-const RestaurantPage = React.lazy(() => import('../Pages/RestaurantPage'))
+const CityPage = React.lazy(() => import('../Pages/CityPage'))
 
 const routes = [
   {
@@ -12,6 +13,16 @@ const routes = [
     name: '首頁',
     exact: true,
     element: <HomePage />
+  },
+  {
+    path: '/nearbybike',
+    name: '首頁',
+    exact: true,
+    element: (
+      <React.Suspense fallback={<Loading />}>
+        <BikePage />
+      </React.Suspense>
+    )
   },
   {
     path: '/scenicspots/:place',
@@ -34,18 +45,18 @@ const routes = [
     )
   },
   {
-    path: '/restaurants/main/:place/:classify',
-    name: '美食餐廳',
+    path: '/cities',
+    name: '城市頁面',
     exact: true,
     element: (
       <React.Suspense fallback={<Loading />}>
-        <RestaurantPage />
+        <CityPage />
       </React.Suspense>
     )
   },
   {
     path: '*',
-    element: <Navigate to="/" />
+    element: <Navigate to='/' />
   }
 ]
 
