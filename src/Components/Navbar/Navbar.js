@@ -24,6 +24,7 @@ const Navbar = ({ onHamburgerClick, children, routeName }) => {
       px={10}
       color='white'
       minH='80px'
+      justifyContent={{ base: 'center', md: 'space-between' }}
     >
       <ChevronLeftIcon
         display={{ base: 'block', md: 'none' }}

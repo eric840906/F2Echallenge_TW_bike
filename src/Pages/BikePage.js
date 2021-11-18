@@ -1,29 +1,16 @@
-import { useEffect, useState, useRef } from 'react'
-import {
-  Flex,
-  Box,
-  Text,
-  Heading,
-  FormControl,
-  Input,
-  IconButton
-} from '@chakra-ui/react'
-import { SearchIcon } from '@chakra-ui/icons'
+import { useEffect, useState } from 'react'
+import { Flex, Text } from '@chakra-ui/react'
 import { MyMap } from 'Components/Map'
 import { usePosition, useSpots, useAvailability } from 'hooks'
 import combineData from 'util/combineData'
 import { Navbar } from 'Components/Navbar'
 import { MapModeButton } from 'Components/SpecialBottons'
-import useMyToast from 'hooks/useMyToast'
 
 const BikePage = () => {
-  const inputRef = useRef(null)
   const [latitude, longitude, error] = usePosition()
   const [nearbyStations, searchNearbyStations] = useSpots()
   const [stationDetail, searchStationDetail] = useAvailability()
-  const [searchTerm, setSearchTerm] = useState('')
   const [mapMode, setMapMode] = useState('default')
-  const { errorToast } = useMyToast('9527')
   const switchMode = () => {
     if (mapMode === 'default') {
       return setMapMode('park')
@@ -44,26 +31,21 @@ const BikePage = () => {
       })
     }
   }, [latitude, longitude])
-  const search = e => {
-    e.preventDefault()
-    setSearchTerm(inputRef.current.value)
-    errorToast('NOT READY YET')
-    document.activeElement.blur()
-  }
+  // const search = e => {
+  //   e.preventDefault()
+  //   errorToast('NOT READY YET')
+  //   document.activeElement.blur()
+  // }
   return (
     <>
       <Flex flexDirection='column' h='100vh'>
         <Navbar>
-          <Heading color='brand.black' size='sm' m='auto'>
+          {/* <Heading color='brand.black' size='sm' m='auto'>
             {searchTerm || '您附近的站點'}
-          </Heading>
-          <MapModeButton
-            onClick={switchMode}
-            mapMode={mapMode}
-            rwdStyle={{ display: { base: 'none', md: 'flex' } }}
-          />
+          </Heading> */}
+          <MapModeButton onClick={switchMode} mapMode={mapMode} />
         </Navbar>
-        <Box
+        {/* <Box
           as='form'
           display='flex'
           w='300px'
@@ -75,7 +57,7 @@ const BikePage = () => {
           onSubmit={search}
         >
           <FormControl display='flex' gridGap='6px'>
-            <Input ref={inputRef} placeholder='搜尋站點' bg='brand.white' />
+            <Input placeholder='搜尋站點' bg='brand.white' />
             <IconButton
               type='submit'
               color='white'
@@ -85,7 +67,7 @@ const BikePage = () => {
               onFocus={() => document.activeElement.blur()}
             />
           </FormControl>
-        </Box>
+        </Box> */}
 
         {error ? (
           <Text>{error}</Text>
@@ -103,17 +85,6 @@ const BikePage = () => {
             />
           )
         )}
-        <Flex
-          bg='brand.yellow'
-          display={{ base: 'flex', md: 'none' }}
-          justifyContent='center'
-        >
-          <MapModeButton
-            onClick={switchMode}
-            mapMode={mapMode}
-            rwdStyle={{ display: { base: 'flex', md: 'none' }, w: '300px' }}
-          />
-        </Flex>
       </Flex>
     </>
   )
