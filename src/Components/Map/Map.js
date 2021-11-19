@@ -1,15 +1,17 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { memo, useState, useEffect } from 'react'
 import markerIcon from 'assets/images/default.svg'
 import markerIcon2 from 'assets/images/marker2.svg'
 import flagIcon from 'assets/images/flag.svg'
 import corsshairIcon from 'assets/images/crosshair.svg'
+import { useLocation } from 'react-router-dom'
 import {
   GoogleMap,
   useJsApiLoader,
   Marker,
   Polyline,
-  MarkerClusterer
+  MarkerClusterer,
+  InfoWindow
 } from '@react-google-maps/api'
 import PropTypes from 'prop-types'
 import { pathFilter } from 'util/pathFilter'
@@ -20,8 +22,9 @@ const containerStyle = {
 }
 
 const MyMap = ({ lat, lng, nearbySpots, routePath, mode = 'default' }) => {
+  const { pathname } = useLocation()
   const [currentMap, setCurrentMap] = useState(null)
-  // const [currentInfo, setCurrentInfo] = useState(null)
+  const [currentInfo, setCurrentInfo] = useState(null)
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_KEY
@@ -66,12 +69,14 @@ const MyMap = ({ lat, lng, nearbySpots, routePath, mode = 'default' }) => {
                       color: mode === 'default' ? '#000000' : '#fed801'
                     }
                   }}
-                  onClick={() =>
+                  onClick={() => {
+                    setCurrentInfo(spot)
+                    console.log(currentInfo)
                     currentMap.panTo({
                       lat: spot.StationPosition.PositionLat,
                       lng: spot.StationPosition.PositionLon
                     })
-                  }
+                  }}
                 />
               </div>
             ))
@@ -148,7 +153,7 @@ const MyMap = ({ lat, lng, nearbySpots, routePath, mode = 'default' }) => {
         mapContainerStyle={containerStyle}
         zoom={15}
         onLoad={e => {
-          console.log(e)
+          // console.log(e)
           setCurrentMap(e)
           e.setCenter({ lat, lng })
         }}
@@ -157,12 +162,68 @@ const MyMap = ({ lat, lng, nearbySpots, routePath, mode = 'default' }) => {
           zoomControl: false,
           scaleControl: false,
           fullscreenControl: false,
-          mapTypeControl: false
+          mapTypeControl: false,
+          styles: [
+            {
+              featureType: 'poi',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }]
+            }
+          ]
         }}
       >
-        {/* <Marker position={{ lat, lng }} /> */}
+        {pathname === '/nearbybike' && (
+          <Marker
+            position={{ lat, lng }}
+            options={{
+              draggable: true
+            }}
+            onDragEnd={e => console.log(e.latLng.toJSON())}
+          />
+        )}
         {nearbySpots && renderStations(nearbySpots)}
         {/* {nearbySpots && renderBox(nearbySpots)} */}
+        {currentInfo && (
+          <InfoWindow
+            position={{
+              lat: currentInfo.StationPosition.PositionLat,
+              lng: currentInfo.StationPosition.PositionLon
+            }}
+            onCloseClick={() => setCurrentInfo(null)}
+          >
+            <Flex
+              flexDirection='column'
+              gridGap='20px'
+              pr='12px'
+              pb='12px'
+              fontWeight='700'
+            >
+              <Text>{currentInfo.StationName.Zh_tw}</Text>
+              <Flex justifyContent='center' gridGap={2}>
+                <Flex
+                  flexDirection='column'
+                  background='brand.yellow'
+                  color='brand.black'
+                  borderRadius='5px'
+                  p={2}
+                >
+                  <Text>剩餘車輛</Text>
+                  <Text>{currentInfo.AvailableRentBikes}</Text>
+                </Flex>
+                <Flex
+                  flexDirection='column'
+                  background='brand.black'
+                  color='brand.yellow'
+                  borderRadius='5px'
+                  p={2}
+                >
+                  <Text>可停車位</Text>
+                  <Text>{currentInfo.AvailableReturnBikes}</Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          </InfoWindow>
+        )}
         <Polyline onLoad={onLoad} path={currentPath} options={options} />
         {currentPath && (
           <>
